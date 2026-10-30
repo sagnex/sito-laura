@@ -1,0 +1,9 @@
+// Configurazione per Cloudflare Workers (sito statico: serve la cartella dist/)
+{
+  "name": "sito-laura",
+  "compatibility_date": "2025-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
