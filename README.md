@@ -33,7 +33,7 @@ npm run build    # genera il sito finale in dist/
 
 ## 3. Mettere online (una volta sola)
 
-1. **GitHub**: crea un repository privato `sito-laura-montanari` e fai il push di questa cartella.
+1. **GitHub**: crea un repository privato `sito-laura` e fai il push di questa cartella.
 2. **Cloudflare Pages**: vai su *Workers & Pages → Create → Pages → Connect to Git* e scegli il repository.
    - Framework preset: **Astro**
    - Build command: `npm run build`

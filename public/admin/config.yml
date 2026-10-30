@@ -5,7 +5,7 @@
 #    In alternativa puoi entrare con un token personale di GitHub.
 backend:
   name: github
-  repo: TUO-UTENTE-GITHUB/sito-laura-montanari
+  repo: sagnex/sito-laura
   branch: main
   # base_url: https://sveltia-cms-auth.TUO-ACCOUNT.workers.dev
 
