@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const pensieri = (await getCollection('pensieri', ({ data }) => data.pubblicato))
+  .sort((a, b) => b.data.data.getTime() - a.data.data.getTime());
+const fmt = new Intl.DateTimeFormat('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base titolo="Pensieri" descrizione="Riflessioni sul benessere emotivo e sulle relazioni.">
+  <section class="sezione">
+    <div class="stretto">
+      <p class="occhiello">Pensieri</p>
+      <h1>Piccole riflessioni per stare meglio</h1>
+      <hr class="trattino" />
+      {pensieri.map((p) => (
+        <a class="pensiero" href={`/pensieri/${p.id}`}>
+          <time datetime={p.data.data.toISOString()}>{fmt.format(p.data.data)}</time>
+          <h2>{p.data.titolo}</h2>
+          <p>{p.data.estratto}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pensiero { display: block; padding: 32px 0; border-bottom: 1px solid var(--sabbia-scura); color: var(--inchiostro); text-decoration: none; }
+  .pensiero:hover h2 { color: var(--accento); }
+  .pensiero h2 { font-size: 1.8rem; margin: .3rem 0 .5rem; transition: color .2s; }
+  .pensiero p { color: var(--grigio); margin: 0; }
+  time { font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; color: var(--grigio); }
+</style>

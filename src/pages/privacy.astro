@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import sito from '../data/sito.json';
+---
+<Base titolo="Privacy">
+  <section class="sezione">
+    <div class="stretto prosa">
+      <p class="occhiello">Informativa</p>
+      <h1>Privacy</h1>
+      <hr class="trattino" />
+      <!-- BOZZA: da verificare con un consulente prima della pubblicazione -->
+      <p>Titolare del trattamento: {sito.titolo} {sito.nome}, contattabile all'indirizzo <a href={`mailto:${sito.email}`}>{sito.email}</a>.</p>
+      <h2>Dati raccolti</h2>
+      <p>Questo sito non utilizza cookie di profilazione né strumenti di tracciamento di terze parti. I caratteri tipografici sono ospitati direttamente sul sito, senza collegamenti a servizi esterni.</p>
+      <p>Se mi scrivi via email, i dati che scegli di condividere (nome, indirizzo email, contenuto del messaggio) saranno usati solo per risponderti e conservati per il tempo necessario, nel rispetto del segreto professionale.</p>
+      <h2>I tuoi diritti</h2>
+      <p>Puoi chiedere in qualsiasi momento l'accesso, la rettifica o la cancellazione dei tuoi dati scrivendo all'indirizzo indicato sopra. Hai inoltre il diritto di proporre reclamo al Garante per la protezione dei dati personali.</p>
+    </div>
+  </section>
+</Base>

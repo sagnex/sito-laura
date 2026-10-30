@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import sito from '../data/sito.json';
+---
+<Base titolo="Contatti" descrizione="Scrivimi per fissare un primo colloquio conoscitivo.">
+  <section class="sezione">
+    <div class="contenitore griglia">
+      <div>
+        <p class="occhiello">Contatti</p>
+        <h1>Facciamo il primo passo, insieme</h1>
+        <hr class="trattino" />
+        <p class="lead">Scrivere può sembrare difficile, ma bastano poche righe. Raccontami brevemente cosa ti porta qui: ti risponderò con cura, il prima possibile.</p>
+        <p class="nota">Il primo colloquio serve a conoscerci e a capire insieme se e come posso esserti d'aiuto. Ogni informazione che condividerai resterà riservata, nel rispetto del segreto professionale.</p>
+      </div>
+      <div class="scheda">
+        <div>
+          <p class="occhiello">Email</p>
+          <p><a href={`mailto:${sito.email}?subject=Richiesta%20di%20primo%20colloquio`}>{sito.email}</a></p>
+        </div>
+        {sito.telefono && (
+          <div>
+            <p class="occhiello">Telefono</p>
+            <p><a href={`tel:${sito.telefono.replace(/\s/g, '')}`}>{sito.telefono}</a></p>
+          </div>
+        )}
+        {sito.citta && (
+          <div>
+            <p class="occhiello">Dove ricevo</p>
+            <p>{sito.citta}<br />Anche online</p>
+          </div>
+        )}
+        <a class="bottone bottone--pieno" href={`mailto:${sito.email}?subject=Richiesta%20di%20primo%20colloquio`}>Scrivimi un'email</a>
+      </div>
+    </div>
+  </section>
+  <section class="sezione sezione--sabbia">
+    <p class="citazione">{sito.frasi[5]}</p>
+  </section>
+</Base>
+
+<style>
+  .griglia { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: start; }
+  .lead { font-size: 1.2rem; }
+  .nota { color: var(--grigio); }
+  .scheda { background: var(--sabbia); padding: 40px; display: grid; gap: 8px; }
+  .scheda a:not(.bottone) { word-break: break-all; }
+  .scheda .bottone { justify-self: start; margin-top: 12px; }
+  @media (max-width: 820px) { .griglia { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,43 @@
+---
+import sito from '../data/sito.json';
+const anno = new Date().getFullYear();
+---
+<footer class="piede">
+  <div class="contenitore griglia">
+    <div>
+      <img src="/img/logo.png" alt="Laura Montanari" width="140" height="58" class="logo" />
+      <p class="frase">Uno spazio di ascolto, per tornare a sentirsi a casa in sé stessi.</p>
+    </div>
+    <div>
+      <p class="occhiello">Contatti</p>
+      <p>
+        <a href={`mailto:${sito.email}`}>{sito.email}</a>
+        {sito.telefono && <><br /><a href={`tel:${sito.telefono.replace(/\s/g, '')}`}>{sito.telefono}</a></>}
+        {sito.citta && <><br />{sito.citta}</>}
+      </p>
+      {(sito.instagram || sito.linkedin) && (
+        <p class="social">
+          {sito.instagram && <a href={sito.instagram} rel="noopener">Instagram</a>}
+          {sito.linkedin && <a href={sito.linkedin} rel="noopener">LinkedIn</a>}
+        </p>
+      )}
+    </div>
+    <div class="legale">
+      <p>{sito.titolo} {sito.nome} — {sito.professione}</p>
+      <p>{sito.albo}</p>
+      {sito.partitaIva && <p>P.IVA {sito.partitaIva}</p>}
+      <p><a href="/privacy">Privacy</a> · © {anno}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .piede { background: var(--sabbia); padding: 56px 0 40px; font-size: .95rem; }
+  .griglia { display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; gap: 40px; }
+  .logo { height: 48px; width: auto; mix-blend-mode: multiply; margin-bottom: 12px; }
+  .frase { font-family: var(--font-titoli); font-size: 1.15rem; line-height: 1.4; max-width: 26ch; }
+  .social { display: flex; gap: 1rem; }
+  .legale { color: var(--grigio); font-size: .85rem; }
+  .legale p { margin-bottom: .4em; }
+  @media (max-width: 760px) { .griglia { grid-template-columns: 1fr; gap: 24px; } }
+</style>

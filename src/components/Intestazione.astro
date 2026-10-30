@@ -1,0 +1,55 @@
+---
+const voci = [
+  { href: '/', testo: 'Home' },
+  { href: '/chi-sono', testo: 'Chi sono' },
+  { href: '/servizi', testo: 'Servizi' },
+  { href: '/pensieri', testo: 'Pensieri' },
+  { href: '/contatti', testo: 'Contatti' },
+];
+const attuale = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isAttiva = (href: string) =>
+  href === '/' ? attuale === '/' : attuale.startsWith(href);
+---
+<header class="testata">
+  <div class="contenitore riga">
+    <a href="/" class="logo" aria-label="Torna alla home">
+      <img src="/img/logo.png" alt="Laura Montanari" width="160" height="66" />
+    </a>
+    <input type="checkbox" id="menu-toggle" class="menu-toggle" />
+    <label for="menu-toggle" class="hamburger" aria-label="Apri il menu"><span></span></label>
+    <nav aria-label="Menu principale">
+      <ul>
+        {voci.map((v) => (
+          <li><a href={v.href} aria-current={isAttiva(v.href) ? 'page' : undefined}>{v.testo}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .testata { background: var(--sabbia); border-top: 3px solid var(--inchiostro); position: sticky; top: 0; z-index: 10; }
+  .riga { display: flex; align-items: center; justify-content: space-between; min-height: 76px; }
+  .logo img { height: 56px; width: auto; mix-blend-mode: multiply; }
+  nav ul { list-style: none; display: flex; gap: 2rem; margin: 0; padding: 0; }
+  nav a {
+    color: var(--inchiostro); text-decoration: none;
+    font-size: .82rem; letter-spacing: .22em; text-transform: uppercase;
+    padding-bottom: 4px; border-bottom: 1.5px solid transparent;
+  }
+  nav a:hover, nav a[aria-current='page'] { border-color: var(--inchiostro); }
+  .menu-toggle, .hamburger { display: none; }
+
+  @media (max-width: 760px) {
+    .hamburger { display: grid; place-items: center; width: 44px; height: 44px; cursor: pointer; }
+    .hamburger span, .hamburger span::before, .hamburger span::after {
+      display: block; width: 24px; height: 1.5px; background: var(--inchiostro); position: relative; content: '';
+    }
+    .hamburger span::before { position: absolute; top: -7px; }
+    .hamburger span::after { position: absolute; top: 7px; }
+    nav { position: absolute; left: 0; right: 0; top: 100%; background: var(--sabbia); display: none; border-bottom: 1px solid var(--sabbia-scura); }
+    .menu-toggle:checked ~ nav { display: block; }
+    nav ul { flex-direction: column; gap: 0; padding: 8px 16px 20px; }
+    nav a { display: block; padding: 14px 0; border: 0; }
+  }
+</style>

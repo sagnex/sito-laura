@@ -1,0 +1,38 @@
+---
+import '../styles/global.css';
+import Intestazione from '../components/Intestazione.astro';
+import PieDiPagina from '../components/PieDiPagina.astro';
+import sito from '../data/sito.json';
+
+interface Props {
+  titolo?: string;
+  descrizione?: string;
+}
+const { titolo, descrizione = sito.home.frase } = Astro.props;
+const titoloCompleto = titolo
+  ? `${titolo} · ${sito.titolo} ${sito.nome}`
+  : `${sito.titolo} ${sito.nome} · ${sito.professione}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titoloCompleto}</title>
+    <meta name="description" content={descrizione} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <meta property="og:title" content={titoloCompleto} />
+    <meta property="og:description" content={descrizione} />
+    <meta property="og:image" content={new URL('/img/laura.jpg', Astro.site)} />
+    <meta property="og:locale" content="it_IT" />
+  </head>
+  <body>
+    <Intestazione />
+    <main>
+      <slot />
+    </main>
+    <PieDiPagina />
+  </body>
+</html>

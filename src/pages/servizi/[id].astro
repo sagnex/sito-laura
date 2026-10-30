@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const servizi = await getCollection('servizi', ({ data }) => data.pubblicato);
+  return servizi.map((s) => ({ params: { id: s.id }, props: { servizio: s } }));
+}
+const { servizio } = Astro.props;
+const { Content } = await render(servizio);
+const d = servizio.data;
+---
+<Base titolo={d.titolo} descrizione={d.sottotitolo}>
+  <article class="sezione">
+    <div class="stretto">
+      <a href="/servizi" class="indietro">← Tutti i servizi</a>
+      <h1>{d.titolo}</h1>
+      <p class="sotto">{d.sottotitolo}</p>
+      <hr class="trattino" />
+      <div class="prosa"><Content /></div>
+
+      <aside class="scheda">
+        {d.modalita && <p><span class="occhiello">Modalità</span><br />{d.modalita}</p>}
+        {d.durata && <p><span class="occhiello">Durata</span><br />{d.durata}</p>}
+        {d.prezzo && <p><span class="occhiello">Costo</span><br />{d.prezzo}</p>}
+        <div class="azioni">
+          <a class="bottone bottone--pieno" href="/contatti">Richiedi informazioni</a>
+          {d.linkPagamento && <a class="bottone" href={d.linkPagamento} rel="noopener">Prenota e paga online</a>}
+        </div>
+      </aside>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .indietro { font-size: .82rem; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+  .sotto { font-family: var(--font-titoli); font-size: 1.4rem; line-height: 1.4; color: var(--grigio); }
+  .scheda { background: var(--sabbia); padding: 32px; margin-top: 3rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+  .azioni { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+</style>

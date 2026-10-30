@@ -1,0 +1,92 @@
+# Configurazione del pannello /admin (Sveltia CMS)
+# 1) Sostituisci TUO-UTENTE-GITHUB con il tuo nome utente GitHub.
+# 2) Per accedere con il pulsante "Accedi con GitHub" serve il piccolo
+#    servizio di autenticazione (vedi README.md, sezione 4).
+#    In alternativa puoi entrare con un token personale di GitHub.
+backend:
+  name: github
+  repo: TUO-UTENTE-GITHUB/sito-laura-montanari
+  branch: main
+  # base_url: https://sveltia-cms-auth.TUO-ACCOUNT.workers.dev
+
+locale: it
+media_folder: public/img
+public_folder: /img
+
+collections:
+  - name: impostazioni
+    label: Testi del sito e contatti
+    files:
+      - name: sito
+        label: Testi principali e frasi
+        file: src/data/sito.json
+        fields:
+          - { name: titolo, label: Titolo (es. Dott.ssa), widget: string }
+          - { name: nome, label: Nome e cognome, widget: string }
+          - { name: professione, label: Professione, widget: string }
+          - { name: email, label: Email, widget: string }
+          - { name: telefono, label: Telefono, widget: string, required: false }
+          - { name: citta, label: Città / indirizzo studio, widget: string, required: false }
+          - { name: albo, label: Iscrizione all'Albo, widget: string }
+          - { name: partitaIva, label: Partita IVA, widget: string, required: false }
+          - { name: instagram, label: Link Instagram, widget: string, required: false }
+          - { name: linkedin, label: Link LinkedIn, widget: string, required: false }
+          - name: home
+            label: Home
+            widget: object
+            fields:
+              - { name: frase, label: Frase principale, widget: text }
+              - { name: benvenuto, label: Messaggio di benvenuto, widget: text }
+              - { name: invito, label: Invito finale, widget: text }
+          - name: chiSono
+            label: Chi sono
+            widget: object
+            fields:
+              - { name: intro, label: Frase di apertura, widget: text }
+              - { name: testo, label: Testo (lascia una riga vuota tra i paragrafi), widget: text }
+              - name: valori
+                label: Valori
+                widget: list
+                fields:
+                  - { name: titolo, label: Titolo, widget: string }
+                  - { name: testo, label: Testo, widget: text }
+          - name: frasi
+            label: Frasi ispiratrici (la prima appare in grande nella home)
+            widget: list
+            field: { name: frase, label: Frase, widget: string }
+
+  - name: servizi
+    label: Servizi
+    label_singular: Servizio
+    folder: src/content/servizi
+    create: true
+    slug: '{{slug}}'
+    identifier_field: titolo
+    summary: '{{titolo}}'
+    sortable_fields: [ordine, titolo]
+    fields:
+      - { name: titolo, label: Titolo, widget: string }
+      - { name: sottotitolo, label: Sottotitolo, widget: text }
+      - { name: ordine, label: Ordine di apparizione, widget: number, value_type: int, default: 10 }
+      - { name: modalita, label: Modalità, widget: string, required: false }
+      - { name: durata, label: Durata, widget: string, required: false }
+      - { name: prezzo, label: Prezzo (lascia vuoto per non mostrarlo), widget: string, required: false }
+      - { name: linkPagamento, label: Link di pagamento Stripe (facoltativo), widget: string, required: false }
+      - { name: pubblicato, label: Pubblicato, widget: boolean, default: true }
+      - { name: body, label: Descrizione, widget: markdown }
+
+  - name: pensieri
+    label: Pensieri (blog)
+    label_singular: Pensiero
+    folder: src/content/pensieri
+    create: true
+    slug: '{{slug}}'
+    identifier_field: titolo
+    summary: '{{titolo}} · {{data}}'
+    sortable_fields: [data, titolo]
+    fields:
+      - { name: titolo, label: Titolo, widget: string }
+      - { name: data, label: Data, widget: datetime, time_format: false, date_format: 'YYYY-MM-DD', format: 'YYYY-MM-DD' }
+      - { name: estratto, label: Breve anteprima, widget: text }
+      - { name: pubblicato, label: Pubblicato, widget: boolean, default: true }
+      - { name: body, label: Testo, widget: markdown }

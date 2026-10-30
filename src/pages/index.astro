@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import sito from '../data/sito.json';
+import { getCollection } from 'astro:content';
+
+const servizi = (await getCollection('servizi', ({ data }) => data.pubblicato))
+  .sort((a, b) => a.data.ordine - b.data.ordine);
+---
+<Base>
+  <!-- HERO: ricalca la schermata originale -->
+  <section class="hero">
+    <div class="contenitore hero-griglia">
+      <div class="hero-card appare">
+        <h1>{sito.titolo}<br />{sito.nome}</h1>
+        <p class="occhiello">{sito.professione}</p>
+        <hr class="trattino" />
+        <p class="hero-frase">{sito.home.frase}</p>
+        <hr class="trattino" />
+        <div class="hero-azioni">
+          <a class="bottone bottone--pieno" href="/contatti">Prenota un primo colloquio</a>
+          <a class="hero-mail" href={`mailto:${sito.email}`}>
+            <svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true"><rect x="1" y="1" width="20" height="14" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M1 1l10 8 10-8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            {sito.email}
+          </a>
+        </div>
+      </div>
+      <img class="hero-foto appare appare-2" src="/img/laura.jpg" alt={`${sito.titolo} ${sito.nome}`} width="613" height="802" />
+    </div>
+  </section>
+
+  <!-- BENVENUTO -->
+  <section class="sezione">
+    <div class="stretto centro">
+      <p class="occhiello">Benvenuta, benvenuto</p>
+      <p class="benvenuto">{sito.home.benvenuto}</p>
+    </div>
+  </section>
+
+  <!-- SERVIZI -->
+  <section class="sezione sezione--sabbia">
+    <div class="contenitore">
+      <p class="occhiello">Come posso accompagnarti</p>
+      <h2>I percorsi</h2>
+      <div class="carte">
+        {servizi.map((s, i) => (
+          <a class="carta" href={`/servizi/${s.id}`}>
+            <span class="numero">0{i + 1}</span>
+            <h3>{s.data.titolo}</h3>
+            <p>{s.data.sottotitolo}</p>
+            <span class="leggi">Scopri di più →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FRASE -->
+  <section class="sezione">
+    <div class="contenitore">
+      <p class="citazione">{sito.frasi[0]}</p>
+    </div>
+  </section>
+
+  <!-- CHI SONO -->
+  <section class="sezione sezione--sabbia">
+    <div class="contenitore chi-griglia">
+      <img src="/img/laura.jpg" alt="" class="chi-foto" loading="lazy" width="613" height="802" />
+      <div>
+        <p class="occhiello">Chi sono</p>
+        <h2>{sito.chiSono.intro}</h2>
+        <a class="bottone" href="/chi-sono">Conosciamoci</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PICCOLE FRASI -->
+  <section class="sezione">
+    <div class="contenitore">
+      <p class="occhiello centro">Parole da portare con sé</p>
+      <ul class="frasi">
+        {sito.frasi.slice(1).map((f) => <li>{f}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- INVITO -->
+  <section class="sezione invito">
+    <div class="stretto centro">
+      <h2>{sito.home.invito}</h2>
+      <a class="bottone" href="/contatti">Scrivimi</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .centro { text-align: center; }
+  .hero { padding: clamp(32px, 6vw, 72px) 0 0; background: linear-gradient(to bottom, var(--carta) 82%, var(--sabbia) 82%); }
+  .hero-griglia { display: grid; grid-template-columns: 1.1fr 1fr; align-items: end; }
+  .hero-card { background: var(--sabbia); padding: clamp(32px, 6vw, 72px); margin-bottom: clamp(32px, 6vw, 72px); }
+  .hero-card .occhiello { font-size: .85rem; }
+  .hero-frase { font-size: 1.2rem; max-width: 30ch; text-align: justify; hyphens: auto; }
+  .hero-azioni { display: flex; flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+  .hero-mail { display: inline-flex; align-items: center; gap: .6rem; color: var(--inchiostro); text-decoration: none; font-style: italic; word-break: break-all; }
+  .hero-foto { width: 100%; max-width: 520px; justify-self: center; mix-blend-mode: multiply; }
+
+  .benvenuto { font-family: var(--font-titoli); font-size: clamp(1.35rem, 2.6vw, 1.8rem); line-height: 1.45; margin-top: 1rem; }
+
+  .carte { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 2rem; }
+  .carta {
+    background: var(--carta); padding: 36px 32px; text-decoration: none; color: var(--inchiostro);
+    display: flex; flex-direction: column; border: 1px solid transparent; transition: border-color .25s, transform .25s;
+  }
+  .carta:hover { border-color: var(--inchiostro); transform: translateY(-3px); color: var(--inchiostro); }
+  .numero { font-family: var(--font-titoli); color: var(--accento); font-size: 1.1rem; margin-bottom: 1rem; }
+  .carta p { color: var(--grigio); flex: 1; }
+  .leggi { font-size: .8rem; letter-spacing: .2em; text-transform: uppercase; }
+
+  .chi-griglia { display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
+  .chi-foto { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: top; mix-blend-mode: multiply; }
+  .chi-griglia h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); margin: .6rem 0 1.8rem; }
+
+  .frasi { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0 24px; }
+  .frasi li {
+    font-family: var(--font-titoli); font-size: 1.25rem; line-height: 1.4; padding: 28px 0;
+    border-top: 1.5px solid var(--inchiostro);
+  }
+  .invito { border-top: 1px solid var(--sabbia-scura); }
+  .invito h2 { margin-bottom: 1.5rem; }
+
+  @media (max-width: 820px) {
+    .hero { background: var(--carta); }
+    .hero-griglia, .chi-griglia { grid-template-columns: 1fr; }
+    .hero-card { margin-bottom: 0; order: 2; }
+    .hero-foto { order: 1; max-width: 360px; }
+    .chi-foto { display: none; }
+  }
+</style>

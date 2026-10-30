@@ -1,0 +1,34 @@
+{
+  "nome": "Laura Montanari",
+  "titolo": "Dott.ssa",
+  "professione": "Psicologa · Counselor",
+  "email": "dottssalauramontanari@gmail.com",
+  "telefono": "",
+  "citta": "",
+  "albo": "Iscritta all'Albo degli Psicologi della Regione ___ al n. ___",
+  "partitaIva": "",
+  "instagram": "",
+  "linkedin": "",
+  "home": {
+    "frase": "Supporto psicologico personalizzato e mirato per superare le sfide e raggiungere il benessere emotivo.",
+    "invito": "Ogni cambiamento comincia da una conversazione. Possiamo iniziarla insieme.",
+    "benvenuto": "C'è un momento, nella vita di ognuno, in cui fermarsi diventa il gesto più coraggioso. Questo spazio nasce per accoglierlo: senza giudizio, senza fretta, con tutta l'attenzione che meriti."
+  },
+  "chiSono": {
+    "intro": "Credo che ogni persona porti con sé, anche nei momenti più difficili, le risorse per ritrovare la propria strada. Il mio lavoro è aiutarti a vederle.",
+    "testo": "Sono psicologa e counselor. Accompagno persone e coppie attraverso i passaggi della vita che chiedono ascolto: un cambiamento, una fatica che non trova parole, il desiderio di conoscersi meglio.\n\nNel mio studio troverai un luogo sicuro, in cui le emozioni hanno il permesso di esistere e i pensieri il tempo di prendere forma. Lavoriamo insieme, al tuo ritmo, perché il benessere non si impone: si costruisce, un passo alla volta.",
+    "valori": [
+      { "titolo": "Ascolto", "testo": "Ogni storia è unica e merita di essere accolta così com'è, con rispetto e delicatezza." },
+      { "titolo": "Fiducia", "testo": "Il percorso nasce da un'alleanza: due persone che guardano nella stessa direzione." },
+      { "titolo": "Crescita", "testo": "Non si tratta di diventare qualcun altro, ma di tornare, con più libertà, a essere sé stessi." }
+    ]
+  },
+  "frasi": [
+    "Prendersi cura di sé non è un lusso: è il primo atto di gentilezza.",
+    "Anche le radici crescono nel buio, prima di vedere la luce.",
+    "Non esistono emozioni sbagliate, solo emozioni che chiedono ascolto.",
+    "Il primo passo non deve essere grande. Deve solo essere tuo.",
+    "Chiedere aiuto è una forma di coraggio, non di debolezza.",
+    "Come un fiore che si apre, ogni cambiamento ha il suo tempo."
+  ]
+}

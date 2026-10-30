@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pensieri = await getCollection('pensieri', ({ data }) => data.pubblicato);
+  return pensieri.map((p) => ({ params: { id: p.id }, props: { pensiero: p } }));
+}
+const { pensiero } = Astro.props;
+const { Content } = await render(pensiero);
+const fmt = new Intl.DateTimeFormat('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base titolo={pensiero.data.titolo} descrizione={pensiero.data.estratto}>
+  <article class="sezione">
+    <div class="stretto">
+      <a href="/pensieri" class="indietro">← Tutti i pensieri</a>
+      <p class="occhiello">{fmt.format(pensiero.data.data)}</p>
+      <h1>{pensiero.data.titolo}</h1>
+      <hr class="trattino" />
+      <div class="prosa"><Content /></div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .indietro { font-size: .82rem; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+</style>

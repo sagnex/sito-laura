@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import sito from '../data/sito.json';
+const paragrafi = sito.chiSono.testo.split(/\n\n+/);
+---
+<Base titolo="Chi sono" descrizione={sito.chiSono.intro}>
+  <section class="sezione">
+    <div class="contenitore griglia">
+      <img src="/img/laura.jpg" alt={`${sito.titolo} ${sito.nome}`} class="foto" width="613" height="802" />
+      <div class="prosa">
+        <p class="occhiello">Chi sono</p>
+        <h1>{sito.titolo} {sito.nome}</h1>
+        <hr class="trattino" />
+        <p class="intro">{sito.chiSono.intro}</p>
+        {paragrafi.map((p) => <p>{p}</p>)}
+        <p class="albo">{sito.albo}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione sezione--sabbia">
+    <div class="contenitore">
+      <p class="occhiello">In cosa credo</p>
+      <div class="valori">
+        {sito.chiSono.valori.map((v) => (
+          <div>
+            <h3>{v.titolo}</h3>
+            <p>{v.testo}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione">
+    <div class="contenitore">
+      <p class="citazione">{sito.frasi[3]}</p>
+      <p style="text-align:center;margin-top:2.5rem"><a class="bottone" href="/contatti">Iniziamo insieme</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .griglia { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(32px, 6vw, 80px); align-items: start; }
+  .foto { width: 100%; position: sticky; top: 110px; background: var(--sabbia); mix-blend-mode: multiply; }
+  .intro { font-family: var(--font-titoli); font-size: 1.45rem; line-height: 1.4; }
+  .albo { color: var(--grigio); font-size: .9rem; margin-top: 2rem; }
+  .valori { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; margin-top: 1.5rem; }
+  .valori div { border-top: 1.5px solid var(--inchiostro); padding-top: 24px; }
+  @media (max-width: 820px) { .griglia { grid-template-columns: 1fr; } .foto { position: static; max-width: 380px; } }
+</style>

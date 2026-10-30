@@ -1,0 +1,53 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import sito from '../../data/sito.json';
+
+const servizi = (await getCollection('servizi', ({ data }) => data.pubblicato))
+  .sort((a, b) => a.data.ordine - b.data.ordine);
+---
+<Base titolo="Servizi" descrizione="I percorsi di sostegno psicologico e counseling.">
+  <section class="sezione">
+    <div class="contenitore">
+      <p class="occhiello">Servizi</p>
+      <h1>Ogni percorso è cucito su di te</h1>
+      <hr class="trattino" />
+      <p class="lead">Non esiste una strada uguale per tutti. Per questo il primo colloquio è dedicato a conoscerci e a capire, insieme, quale percorso può esserti più utile.</p>
+
+      <div class="elenco">
+        {servizi.map((s, i) => (
+          <a class="voce" href={`/servizi/${s.id}`}>
+            <span class="numero">0{i + 1}</span>
+            <div>
+              <h2>{s.data.titolo}</h2>
+              <p>{s.data.sottotitolo}</p>
+              <p class="dettagli">
+                {[s.data.modalita, s.data.durata, s.data.prezzo].filter(Boolean).join(' · ')}
+              </p>
+            </div>
+            <span class="freccia">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="sezione sezione--sabbia">
+    <p class="citazione">{sito.frasi[4]}</p>
+  </section>
+</Base>
+
+<style>
+  .lead { font-size: 1.2rem; max-width: 60ch; color: var(--grigio); }
+  .elenco { margin-top: 3rem; border-top: 1.5px solid var(--inchiostro); }
+  .voce {
+    display: grid; grid-template-columns: 60px 1fr 40px; gap: 16px; align-items: start;
+    padding: 36px 0; border-bottom: 1px solid var(--sabbia-scura); color: var(--inchiostro); text-decoration: none;
+  }
+  .voce:hover h2 { color: var(--accento); }
+  .voce h2 { font-size: clamp(1.5rem, 3vw, 2rem); transition: color .2s; }
+  .voce p { color: var(--grigio); margin-bottom: .4em; }
+  .dettagli { font-size: .82rem; letter-spacing: .15em; text-transform: uppercase; }
+  .numero { font-family: var(--font-titoli); color: var(--accento); font-size: 1.2rem; padding-top: 6px; }
+  .freccia { font-size: 1.6rem; padding-top: 4px; }
+  @media (max-width: 600px) { .voce { grid-template-columns: 40px 1fr; } .freccia { display: none; } }
+</style>
