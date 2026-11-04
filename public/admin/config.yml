@@ -54,6 +54,16 @@ collections:
             label: Frasi ispiratrici (la prima appare in grande nella home)
             widget: list
             field: { name: frase, label: Frase, widget: string }
+          - name: auguri
+            label: Biglietto di auguri
+            widget: object
+            fields:
+              - { name: attivo, label: Attivo, widget: boolean }
+              - { name: soloConLink, label: "Visibile solo con il link ?auguri", widget: boolean }
+              - { name: titolo, label: Titolo, widget: string }
+              - { name: messaggio, label: Messaggio (riga vuota tra i paragrafi), widget: text }
+              - { name: firma, label: Firma, widget: string }
+              - { name: bottone, label: Testo del pulsante, widget: string }
 
   - name: servizi
     label: Servizi

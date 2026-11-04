@@ -1,0 +1,99 @@
+---
+// Biglietto di auguri che si apre sopra la home.
+// Si configura in src/data/sito.json → "auguri":
+//   attivo: false        → non compare mai
+//   soloConLink: true    → compare solo aprendo il sito con ?auguri  (es. https://sito/?auguri)
+//   soloConLink: false   → compare a tutti i visitatori
+import sito from '../data/sito.json';
+const a = sito.auguri;
+const paragrafi = a.messaggio.split(/\n\n+/);
+// Cuoricini che scendono: posizioni e velocità variate
+const petali = Array.from({ length: 16 }, (_, i) => ({
+  x: (i * 6.3 + (i % 3) * 2) % 100,
+  size: 12 + ((i * 7) % 5) * 4,
+  dur: 8 + ((i * 5) % 6),
+  delay: (i * 1.3) % 10,
+}));
+---
+{a.attivo && (
+  <div id="auguri" class="auguri" data-solo-link={a.soloConLink ? 'si' : 'no'} hidden role="dialog" aria-modal="true" aria-labelledby="auguri-titolo">
+    <div class="petali" aria-hidden="true">
+      {petali.map((p) => <span style={`left:${p.x}%;font-size:${p.size}px;animation-duration:${p.dur}s;animation-delay:-${p.delay}s`}>♥</span>)}
+    </div>
+    <div class="biglietto">
+      <button class="chiudi" type="button" aria-label="Chiudi">×</button>
+      <img src="/img/fiore.png" alt="" class="fiore" width="64" height="64" />
+      <p class="occhiello">Per te, oggi</p>
+      <h2 id="auguri-titolo">{a.titolo}</h2>
+      <hr class="trattino" />
+      {paragrafi.map((p) => <p>{p}</p>)}
+      <p class="firma">{a.firma}</p>
+      <button class="bottone bottone--pieno entra" type="button">{a.bottone}</button>
+    </div>
+  </div>
+  <button id="auguri-riapri" class="riapri" type="button" hidden aria-label="Rileggi gli auguri">♥</button>
+)}
+
+<script>
+  const box = document.getElementById('auguri');
+  const riapri = document.getElementById('auguri-riapri');
+  if (box && riapri) {
+    const conLink = new URLSearchParams(location.search).has('auguri');
+    const visibile = box.dataset.soloLink === 'no' || conLink;
+    const apri = () => { box.hidden = false; document.body.style.overflow = 'hidden'; riapri.hidden = true; };
+    const chiudi = () => { box.hidden = true; document.body.style.overflow = ''; riapri.hidden = false; };
+    if (visibile) {
+      setTimeout(apri, 600);
+      box.querySelectorAll('.chiudi, .entra').forEach((b) => b.addEventListener('click', chiudi));
+      box.addEventListener('click', (e) => { if (e.target === box) chiudi(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !box.hidden) chiudi(); });
+      riapri.addEventListener('click', apri);
+    }
+  }
+</script>
+
+<style>
+  .auguri {
+    position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px;
+    background: rgba(31, 27, 24, .45); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    animation: sfuma .6s ease both; overflow-y: auto;
+  }
+  .auguri[hidden] { display: none; }
+  .biglietto {
+    position: relative; background: var(--carta); max-width: 560px; width: 100%;
+    padding: clamp(28px, 5vw, 48px); text-align: center;
+    border: 1.5px solid var(--inchiostro); outline: 10px solid var(--sabbia);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .25);
+    animation: sali .8s .1s cubic-bezier(.2, .8, .2, 1) both; margin: 24px 0;
+  }
+  .biglietto h2 { font-size: clamp(2rem, 6vw, 2.8rem); margin-top: .3rem; }
+  .biglietto .trattino { margin: 1.4rem auto; }
+  .biglietto p { text-align: left; font-size: 1.05rem; }
+  .biglietto .occhiello { text-align: center; color: var(--accento); }
+  .fiore { width: 56px; height: 56px; margin: 0 auto .8rem; }
+  .firma { font-family: var(--font-titoli); font-size: 1.35rem; text-align: right !important; margin: 1.6rem 0 2rem; }
+  .chiudi {
+    position: absolute; top: 10px; right: 14px; background: none; border: 0; font-size: 2rem;
+    line-height: 1; cursor: pointer; color: var(--grigio); padding: 6px;
+  }
+  .petali { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+  .petali span {
+    position: absolute; top: -40px; color: #e3a3a0; opacity: .9;
+    animation-name: cade; animation-timing-function: linear; animation-iteration-count: infinite;
+  }
+  .riapri {
+    position: fixed; right: 18px; bottom: 18px; z-index: 50; width: 52px; height: 52px; border-radius: 50%;
+    border: 1.5px solid var(--inchiostro); background: var(--sabbia); color: #c0504d; font-size: 1.4rem; cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
+  }
+  .riapri[hidden] { display: none; }
+  @keyframes sfuma { from { opacity: 0; } }
+  @keyframes sali { from { opacity: 0; transform: translateY(30px) scale(.97); } }
+  @keyframes cade {
+    to { transform: translate(40px, 110vh) rotate(260deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .petali { display: none; }
+    .auguri, .biglietto { animation: none; }
+  }
+</style>
