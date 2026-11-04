@@ -2,13 +2,11 @@
 import Base from '../layouts/Base.astro';
 import sito from '../data/sito.json';
 import { getCollection } from 'astro:content';
-import Auguri from '../components/Auguri.astro';
 
 const servizi = (await getCollection('servizi', ({ data }) => data.pubblicato))
   .sort((a, b) => a.data.ordine - b.data.ordine);
 ---
 <Base>
-  <Auguri />
   <!-- HERO: ricalca la schermata originale -->
   <section class="hero">
     <div class="contenitore hero-griglia">

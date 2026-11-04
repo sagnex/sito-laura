@@ -37,14 +37,20 @@ const petali = Array.from({ length: 16 }, (_, i) => ({
 <script>
   const box = document.getElementById('auguri');
   const riapri = document.getElementById('auguri-riapri');
+  const leggi = (st: Storage, k: string) => { try { return st.getItem(k); } catch { return null; } };
+  const scrivi = (st: Storage, k: string) => { try { st.setItem(k, '1'); } catch {} };
   if (box && riapri) {
     const conLink = new URLSearchParams(location.search).has('auguri');
-    const visibile = box.dataset.soloLink === 'no' || conLink;
-    const apri = () => { box.hidden = false; document.body.style.overflow = 'hidden'; riapri.hidden = true; };
+    // Chi apre una volta il link con ?auguri resta "abilitato" su quel dispositivo
+    if (conLink) scrivi(localStorage, 'auguri-ok');
+    const abilitato = box.dataset.soloLink === 'no' || conLink || leggi(localStorage, 'auguri-ok') === '1';
+    const apri = () => { box.hidden = false; document.body.style.overflow = 'hidden'; riapri.hidden = true; scrivi(sessionStorage, 'auguri-visto'); };
     const chiudi = () => { box.hidden = true; document.body.style.overflow = ''; riapri.hidden = false; };
-    if (visibile) {
-      setTimeout(apri, 600);
-      box.querySelectorAll('.chiudi, .entra').forEach((b) => b.addEventListener('click', chiudi));
+    if (abilitato) {
+      riapri.hidden = false;
+      // Si apre da solo al primo accesso (o ogni volta che si usa il link); poi si riapre con il ♥
+      if (conLink || leggi(sessionStorage, 'auguri-visto') !== '1') setTimeout(apri, 600);
+      box.querySelectorAll('.chiudi, .entra').forEach((el) => el.addEventListener('click', chiudi));
       box.addEventListener('click', (e) => { if (e.target === box) chiudi(); });
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !box.hidden) chiudi(); });
       riapri.addEventListener('click', apri);

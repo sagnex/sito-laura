@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Intestazione from '../components/Intestazione.astro';
 import PieDiPagina from '../components/PieDiPagina.astro';
+import Auguri from '../components/Auguri.astro';
 import sito from '../data/sito.json';
 
 interface Props {
@@ -34,5 +35,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
     <PieDiPagina />
+    <Auguri />
   </body>
 </html>
